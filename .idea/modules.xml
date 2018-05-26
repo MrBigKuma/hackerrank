@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/hackerank.iml" filepath="$PROJECT_DIR$/hackerank.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hrjava/hrjava.iml" filepath="$PROJECT_DIR$/hrjava/hrjava.iml" />
+    </modules>
+  </component>
+</project>
