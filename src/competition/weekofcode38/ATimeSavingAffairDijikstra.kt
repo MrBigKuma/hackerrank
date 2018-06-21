@@ -13,13 +13,16 @@ fun leastTimeToInterviewDijikstra(n: Int, k: Int, m: Int, graph: Array<MutableMa
 
 	(1 until n).forEach {
 		val v = minOfNotCheckedVertex(checkedSet, traveledTimeSet)
+		if (v == n) return traveledTimeSet[v]
+
 		checkedSet[v] = true
 
 		val traveledTime = traveledTimeSet[v]
 		val waitTime = redLightWaitTime(traveledTime, k)
+		val totalTraveledTime = traveledTime + waitTime
 		graph[v].forEach { eV, t ->
-			if (traveledTimeSet[eV] > traveledTime + waitTime + t)
-				traveledTimeSet[eV] = traveledTime + waitTime + t
+			if (traveledTimeSet[eV] > totalTraveledTime + t)
+				traveledTimeSet[eV] = totalTraveledTime + t
 		}
 	}
 
@@ -43,12 +46,12 @@ fun main(args: Array<String>) {
 
 	val graph = Array<MutableMap<Int, Int>>(n + 1, { mutableMapOf() })
 	(1..m).forEach {
-		val a = scan.nextLine().split(" ").map { it.trim().toInt() }.toTypedArray()
+		val a = scan.nextLine().split(" ").map { it.toInt() }
 		val i = a[0]
 		val j = a[1]
 		val t = a[2]
-		graph[i].compute(j, { _, v -> v?.let { min(it, t) } ?: t})
-		graph[j].compute(i, { _, v -> v?.let { min(it, t) } ?: t})
+		graph[i].let { if (it.containsKey(j)) it[j] = min(it[j]!!, t) else it[j] = t }
+		graph[j].let { if (it.containsKey(i)) it[i] = min(it[i]!!, t) else it[i] = t }
 	}
 
 	val result = leastTimeToInterviewDijikstra(n, k, m, graph)
